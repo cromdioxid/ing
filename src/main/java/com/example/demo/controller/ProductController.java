@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.model.ChangePriceDTO;
 import com.example.demo.model.Product;
-import com.example.demo.repository.ProductRepository;
 import com.example.demo.service.ProductsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
