@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.controller.ProductController;
+import com.example.demo.exceptions.ProductAlreadyExistsException;
 import com.example.demo.exceptions.ProductNotFoundException;
 import com.example.demo.model.Product;
 import com.example.demo.repository.ProductRepository;
@@ -27,9 +28,14 @@ public class ProductsService {
     }
 
     public Product addNewProduct(Product newProduct) {
-        Product result = repo.save(newProduct);
-        log.info("Successfully added product: " + result.toString());
-        return result;
+        List<Product> result = repo.findByBarCode(String.valueOf(newProduct.getBarCode()));
+        if (result.isEmpty()) {
+            Product product = repo.save(newProduct);
+            log.info("Successfully added product: " + result.toString());
+            return product;
+        }
+
+        throw new ProductAlreadyExistsException(newProduct.getBarCode());
     }
 
     public Product editProduct(Product newProduct) {

@@ -23,13 +23,14 @@ class DemoApplicationTests {
 
 	public static final String COCA_COLA = "coca cola";
 	public static final long BAR_CODE = 5942321000046L;
+	public static final String FANTA = "Fanta";
 	@Autowired
 	private ProductController productController;
 
 	@Autowired
 	private ProductsService service;
 
-	@BeforeEach
+	@BeforeTestClass
 	void setUp() {
 		Product product = new Product(COCA_COLA, 10, BAR_CODE);
 		service.addNewProduct(product);
@@ -54,9 +55,9 @@ class DemoApplicationTests {
 
 	@Test
 	void testEditProduct() {
-		Product newProduct = new Product("Fanta", 15, BAR_CODE);
+		Product newProduct = new Product(FANTA, 15, BAR_CODE);
 		Product result = service.editProduct(newProduct);
-		assertThat(result.getName().equals("Fanta"));
+		assertThat(result.getName().equals(DemoApplicationTests.FANTA));
 	}
 
 	@Test
