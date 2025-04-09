@@ -46,4 +46,9 @@ public class ProductController {
     public Product changePrice(@RequestBody ChangePriceDTO priceDTO) {
         return productsService.changePrice(priceDTO.getBarCode(), priceDTO.getPrice());
     }
+
+    @DeleteMapping("/product/{barcode}")
+    public Product deleteProduct(@PathVariable(value="barcode") long barcode) {
+        return productsService.deleteProduct(barcode);
+    }
 }

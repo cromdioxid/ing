@@ -71,4 +71,17 @@ public class ProductsService {
         log.error("Product with barcode " + barCode + " is not in DB");
         throw new ProductNotFoundException(barCode);
     }
+
+    public Product deleteProduct(long barcode) {
+        List<Product> productList = repo.findByBarCode(String.valueOf(barcode));
+        if (!productList.isEmpty()) {
+            Product product = productList.get(0);
+            repo.delete(product);
+            log.info("Product with barcode nr " + barcode + " was deleted");
+            return product;
+        }
+
+        log.error("Product with barcode no " + barcode + " was not found in DB");
+        throw new ProductNotFoundException(barcode);
+    }
 }
