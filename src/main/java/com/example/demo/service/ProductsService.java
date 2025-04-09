@@ -35,6 +35,7 @@ public class ProductsService {
             return product;
         }
 
+        log.error("Product " + newProduct.getBarCode() + " already exists");
         throw new ProductAlreadyExistsException(newProduct.getBarCode());
     }
 
