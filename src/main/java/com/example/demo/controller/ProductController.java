@@ -24,14 +24,14 @@ public class ProductController {
     @GetMapping("/products")
     public List<Product> getAllProducts() {
         List<Product> products = repo.findAll();
-        log.info("All existing products: " + products.toString());
+        log.info("Result of get products endpoint:" + products.toString());
         return products;
     }
 
     @PostMapping("/product")
     public Product addProduct(@RequestBody Product newProduct) {
         Product result = repo.save(newProduct);
-        log.info("Added product: " + result.toString());
+        log.info("Successfully added product: " + result.toString());
         return result;
     }
 }
