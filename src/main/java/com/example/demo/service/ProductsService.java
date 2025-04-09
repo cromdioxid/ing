@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.controller.ProductController;
+import com.example.demo.exceptions.ProductNotFoundException;
 import com.example.demo.model.Product;
 import com.example.demo.repository.ProductRepository;
 import org.slf4j.Logger;
@@ -41,6 +42,6 @@ public class ProductsService {
             return newProduct;
         }
 
-        return null;
+        throw new ProductNotFoundException(newProduct.getBarCode());
     }
 }
