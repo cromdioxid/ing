@@ -57,4 +57,18 @@ public class ProductsService {
         log.error("Product with barcode nr" + barCode + "not found in DB");
         throw new ProductNotFoundException(barCode);
     }
+
+    public Product changePrice(long barCode, long price) {
+        List<Product> result = repo.findByBarCode(String.valueOf(barCode));
+        if(!result.isEmpty()) {
+            Product oldProduct = result.get(0);
+            oldProduct.setPrice(price);
+            repo.save(oldProduct);
+            log.info("Product with barcode nr " + barCode + " has a new price!");
+            return oldProduct;
+        }
+
+        log.error("Product with barcode " + barCode + " is not in DB");
+        throw new ProductNotFoundException(barCode);
+    }
 }

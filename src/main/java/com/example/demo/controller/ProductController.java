@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.ChangePriceDTO;
 import com.example.demo.model.Product;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.service.ProductsService;
@@ -39,5 +40,10 @@ public class ProductController {
     @PatchMapping("/product")
     public Product editProduct(@RequestBody Product newProductInfo) {
         return productsService.editProduct(newProductInfo);
+    }
+
+    @PatchMapping("/changePrice")
+    public Product changePrice(@RequestBody ChangePriceDTO priceDTO) {
+        return productsService.changePrice(priceDTO.getBarCode(), priceDTO.getPrice());
     }
 }
