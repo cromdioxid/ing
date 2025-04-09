@@ -26,6 +26,11 @@ public class ProductController {
         return productsService.getProducts();
     }
 
+    @GetMapping("/product/{barcode}")
+    public Product getProduct(@PathVariable(value="barcode") long barCode) {
+        return productsService.getProduct(barCode);
+    }
+
     @PostMapping("/product")
     public Product addProduct(@RequestBody Product newProduct) {
         return productsService.addNewProduct(newProduct);

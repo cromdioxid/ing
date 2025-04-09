@@ -39,9 +39,22 @@ public class ProductsService {
             existingProduct.setName(newProduct.getName());
             existingProduct.setPrice(newProduct.getPrice());
             repo.save(existingProduct);
+            log.info("Product with barcode nr: " + existingProduct.getBarCode() + " saved successfully");
             return newProduct;
         }
 
+        log.error("Product with barcode nr " + newProduct.getBarCode() + "not found in DB");
         throw new ProductNotFoundException(newProduct.getBarCode());
+    }
+
+    public Product getProduct(long barCode) {
+        List<Product> result = repo.findByBarCode(String.valueOf(barCode));
+        if (!result.isEmpty()) {
+            log.info("Product with barcode nr " + barCode + "retrieved from DB");
+            return result.get(0);
+        }
+
+        log.error("Product with barcode nr" + barCode + "not found in DB");
+        throw new ProductNotFoundException(barCode);
     }
 }
