@@ -1,5 +1,6 @@
 package com.example.demo.security;
 
+import com.example.demo.exceptions.UserNotFoundException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,8 +26,13 @@ public class CustomUserDetailService implements UserDetailsService {
                     .password(passwordEncoder.encode("abc"))
                     .roles("USER")
                     .build();
+        } else if ("admin".equals(username)) {
+            return User.withUsername("admin")
+                    .password(passwordEncoder.encode("adminpwd"))
+                    .roles("ADMIN")
+                    .build();
         } else {
-            throw new UsernameNotFoundException("User not found");
+            throw new UserNotFoundException(username);
         }
     }
 
