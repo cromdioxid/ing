@@ -3,8 +3,7 @@ package com.example.demo;
 import com.example.demo.controller.ProductController;
 import com.example.demo.model.Product;
 import com.example.demo.service.ProductsService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,10 +14,12 @@ import java.util.Base64;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DemoApplicationTests {
 
 	public static final String COCA_COLA = "coca cola";
@@ -30,11 +31,11 @@ class DemoApplicationTests {
 	@Autowired
 	private ProductsService service;
 
-	@BeforeTestClass
-	void setUp() {
-		Product product = new Product(COCA_COLA, 10, BAR_CODE);
-		service.addNewProduct(product);
-	}
+//	@BeforeTestClass
+//	void setUp() {
+//		Product product = new Product(COCA_COLA, 10, BAR_CODE);
+//		service.addNewProduct(product);
+//	}
 
 	@Test
 	void contextLoads() {
@@ -42,34 +43,46 @@ class DemoApplicationTests {
 	}
 
 	@Test
+	@Order(1)
+	void testAddProduct() {
+		Product product = new Product(COCA_COLA, 10, BAR_CODE);
+		Product result = service.addNewProduct(product);
+		assertTrue(result.getBarCode() == BAR_CODE);
+	}
+
+	@Test
+	@Order(2)
 	void testGetProducts() throws Exception {
 		List<Product> result = service.getProducts();
-		assertThat(result.size() == 1);
+		assertTrue(result.size() == 1);
 	}
 
 	@Test
+	@Order(3)
 	void testGetProduct() {
 		Product result = service.getProduct(BAR_CODE);
-		assertThat(result.getName().equals(COCA_COLA));
+		assertTrue(result.getName().equals(COCA_COLA));
 	}
 
 	@Test
+	@Order(4)
 	void testEditProduct() {
 		Product newProduct = new Product(FANTA, 15, BAR_CODE);
 		Product result = service.editProduct(newProduct);
-		assertThat(result.getName().equals(DemoApplicationTests.FANTA));
+		assertTrue(result.getName().equals(DemoApplicationTests.FANTA));
 	}
 
 	@Test
+	@Order(5)
 	void testChangePrice() {
 		Product result = service.changePrice(BAR_CODE, 20);
-		assertThat(result.getPrice() == 20);
+		assertTrue(result.getPrice() == 20);
 	}
 
 	@Test
 	void deleteProduct() {
 		Product result = service.deleteProduct(BAR_CODE);
-		assertThat(result.getName().equals(COCA_COLA));
-		assertThat(service.getProducts().isEmpty());
+		assertTrue(result.getName().equals(FANTA));
+		assertTrue(service.getProducts().isEmpty());
 	}
 }
