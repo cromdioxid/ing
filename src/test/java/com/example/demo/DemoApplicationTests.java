@@ -80,7 +80,8 @@ class DemoApplicationTests {
 	}
 
 	@Test
-	void deleteProduct() {
+	@Order(6)
+	void testDeleteProduct() {
 		Product result = service.deleteProduct(BAR_CODE);
 		assertTrue(result.getName().equals(FANTA));
 		assertTrue(service.getProducts().isEmpty());
